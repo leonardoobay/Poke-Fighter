@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poke Fighter</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+    <section class="row">
+        <div class="small-6 columns">
+            <h1 class="text-center">{{chosenPokemon}}</h1>
+
+            <select id ="app" v-model="chosenPokemon" v-if= "!hasGameStarted">
+                    <option v-for="(poke, pokeIndex) in pokemon"   v-bind:chosenPokemon=" poke.name " >
+                      {{ poke.name }} 
+                    </option>
+                  </select>
+
+           
+                <img v-bind:src="chosenPokemon + '.png'">
+
+            
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style = "{width: player1HP + '%'  }">
+                        {{ player1HP }}
+                </div>
+            </div>
+        </div>
+        <div class="small-6 columns">
+            <h1 class="text-center">Charmander</h1>
+            <img src="charmander.png">
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style = "{width: player2HP + '%'  }">
+                        {{ player2HP }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="row controls" v-if= "!hasGameStarted">
+        <div class="small-12 columns">
+            <button id="start-game" v-on:click= "startGame">START NEW GAME</button>
+        </div>
+    </section>
+    <section class="row controls" v-else>
+        <div class="small-12 columns">
+            <button id="attack" v-on:click= "attack">ATTACK</button>
+            <button id="special-attack" v-on:click= "specialAttack">SPECIAL ATTACK</button>
+            <button id="heal" v-on:click= "recover">HEAL</button>
+            <button id="give-up"v-on:click= "endGame">GIVE UP</button>
+        </div>
+    </section>
+    <section class="row log" v-if= "turns.length >0">
+        <div class="small-12 columns">
+            <ul>
+                <li v-for = "currturn in turns"
+                :class = "{ 'player-turn': currturn.isPlayer, 'monster-turn': !currturn.isPlayer}" >
+                    {{currturn.text}}
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+<script src = 'app.js'></script>
+</body>
+</html>
